@@ -1,4 +1,5 @@
 mod bubblesort;
+mod insertionsort;
 
 pub trait SortingAlgorithm {
     fn sort_with_stats<T, S>(&self, slice: &mut [T], stats: S) -> S
