@@ -70,9 +70,33 @@ impl SortingAlgorithm for NoopSort {
     }
 }
 
+#[derive(Debug, Default)]
+pub struct StdSort;
+
+impl SortingAlgorithm for StdSort {
+    fn sort_with_stats<T, S>(&self, slice: &mut [T], stats: S) -> S
+    where
+        T: Ord,
+        S: SortingStatsTrait,
+    {
+        slice.sort();
+        stats
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn stdsort() {
+        let mut v = [3, 2, 1, 7, 6];
+        assert_eq!(
+            StdSort.sort_with_stats(&mut v[..], EmptySortingStats),
+            EmptySortingStats
+        );
+        assert_eq!(v, [1, 2, 3, 6, 7]);
+    }
 
     #[test]
     fn noopsort() {

@@ -7,14 +7,25 @@ use rand::prelude::*;
 use sorting_explorer::bubblesort::BubbleSort;
 use sorting_explorer::insertionsort::InsertionSort;
 use sorting_explorer::selectionsort::SelectionSort;
-use sorting_explorer::SortingAlgorithm;
+use sorting_explorer::{SortingAlgorithm, StdSort};
 
 pub fn criterion_benchmark(c: &mut Criterion) {
     let mut group = c.benchmark_group("Reversed");
     let plot_config = PlotConfiguration::default().summary_scale(AxisScale::Logarithmic);
     group.plot_config(plot_config);
+
     for n in &[0, 1, 5, 10, 50, 100, 500, 1000, 5000] {
         let unsorted_vec: Vec<i32> = (0..*n).rev().collect();
+
+        group.bench_function(BenchmarkId::new("StdSort", n), |b| {
+            b.iter_batched_ref(
+                || unsorted_vec.clone(),
+                |vec| {
+                    StdSort.sort(&mut vec[..]);
+                },
+                BatchSize::LargeInput,
+            )
+        });
 
         group.bench_function(BenchmarkId::new("BubbleSort", n), |b| {
             b.iter_batched_ref(
@@ -66,6 +77,16 @@ pub fn criterion_benchmark(c: &mut Criterion) {
         let mut unsorted_vec: Vec<i32> = (0..*n).collect();
         let mut rng = StdRng::seed_from_u64(1234567);
         unsorted_vec.shuffle(&mut rng);
+
+        group.bench_function(BenchmarkId::new("StdSort", n), |b| {
+            b.iter_batched_ref(
+                || unsorted_vec.clone(),
+                |vec| {
+                    StdSort.sort(&mut vec[..]);
+                },
+                BatchSize::LargeInput,
+            )
+        });
 
         group.bench_function(BenchmarkId::new("BubbleSort", n), |b| {
             b.iter_batched_ref(
