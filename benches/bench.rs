@@ -4,10 +4,8 @@ use criterion::{BatchSize, BenchmarkId, Criterion};
 
 use rand::prelude::*;
 
-use sorting_explorer::bubblesort::BubbleSort;
-use sorting_explorer::insertionsort::InsertionSort;
-use sorting_explorer::selectionsort::SelectionSort;
-use sorting_explorer::{SortingAlgorithm, StdSort};
+use sorting_explorer::algorithms::{BubbleSort, InsertionSort, SelectionSort, StdSort};
+use sorting_explorer::SortingAlgorithm;
 
 pub fn criterion_benchmark(c: &mut Criterion) {
     let mut group = c.benchmark_group("Reversed");

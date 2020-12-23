@@ -2,6 +2,14 @@ pub mod bubblesort;
 pub mod insertionsort;
 pub mod selectionsort;
 
+pub mod algorithms {
+    pub use super::bubblesort::BubbleSort;
+    pub use super::insertionsort::InsertionSort;
+    // pub(crate) use super::noopsort::NoopSort;
+    pub use super::selectionsort::SelectionSort;
+    pub use super::stdsort::StdSort;
+}
+
 pub trait SortingAlgorithm: std::fmt::Debug + Default {
     fn sort_with_stats<T, S>(&self, slice: &mut [T], stats: S) -> S
     where
@@ -57,54 +65,69 @@ impl SortingStatsTrait for SortingStats {
     }
 }
 
-#[derive(Debug, Default)]
-struct NoopSort;
+pub(crate) mod noopsort {
+    use super::{SortingAlgorithm, SortingStatsTrait};
 
-impl SortingAlgorithm for NoopSort {
-    fn sort_with_stats<T, S>(&self, _slice: &mut [T], stats: S) -> S
-    where
-        T: Ord,
-        S: SortingStatsTrait,
-    {
-        stats
+    #[derive(Debug, Default)]
+    pub(crate) struct NoopSort;
+
+    impl SortingAlgorithm for NoopSort {
+        fn sort_with_stats<T, S>(&self, _slice: &mut [T], stats: S) -> S
+        where
+            T: Ord,
+            S: SortingStatsTrait,
+        {
+            stats
+        }
+    }
+
+    #[cfg(test)]
+    mod tests {
+        use super::*;
+        use crate::EmptySortingStats;
+
+        #[test]
+        fn noopsort() {
+            let mut v = [3, 2, 1, 7, 6];
+            assert_eq!(
+                NoopSort.sort_with_stats(&mut v[..], EmptySortingStats),
+                EmptySortingStats
+            );
+            assert_eq!(v, [3, 2, 1, 7, 6]);
+        }
     }
 }
 
-#[derive(Debug, Default)]
-pub struct StdSort;
+pub mod stdsort {
+    use super::{SortingAlgorithm, SortingStatsTrait};
 
-impl SortingAlgorithm for StdSort {
-    fn sort_with_stats<T, S>(&self, slice: &mut [T], stats: S) -> S
-    where
-        T: Ord,
-        S: SortingStatsTrait,
-    {
-        slice.sort();
-        stats
-    }
-}
+    #[derive(Debug, Default)]
+    pub struct StdSort;
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn stdsort() {
-        let mut v = [3, 2, 1, 7, 6];
-        assert_eq!(
-            StdSort.sort_with_stats(&mut v[..], EmptySortingStats),
-            EmptySortingStats
-        );
-        assert_eq!(v, [1, 2, 3, 6, 7]);
+    impl SortingAlgorithm for StdSort {
+        fn sort_with_stats<T, S>(&self, slice: &mut [T], stats: S) -> S
+        where
+            T: Ord,
+            S: SortingStatsTrait,
+        {
+            slice.sort();
+            stats
+        }
     }
 
-    #[test]
-    fn noopsort() {
-        let mut v = [3, 2, 1, 7, 6];
-        assert_eq!(
-            NoopSort.sort_with_stats(&mut v[..], EmptySortingStats),
-            EmptySortingStats
-        );
-        assert_eq!(v, [3, 2, 1, 7, 6]);
+    #[cfg(test)]
+    mod tests {
+        use super::*;
+        use crate::EmptySortingStats;
+
+        #[test]
+        fn stdsort() {
+            let mut v = [3, 2, 1, 7, 6];
+            assert_eq!(
+                StdSort.sort_with_stats(&mut v[..], EmptySortingStats),
+                EmptySortingStats
+            );
+            assert_eq!(v, [1, 2, 3, 6, 7]);
+        }
     }
 }
