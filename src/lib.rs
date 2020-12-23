@@ -1,7 +1,7 @@
 pub mod bubblesort;
 pub mod insertionsort;
 
-pub trait SortingAlgorithm {
+pub trait SortingAlgorithm: std::fmt::Debug + Default {
     fn sort_with_stats<T, S>(&self, slice: &mut [T], stats: S) -> S
     where
         T: Ord,
@@ -56,6 +56,7 @@ impl SortingStatsTrait for SortingStats {
     }
 }
 
+#[derive(Debug, Default)]
 struct NoopSort;
 
 impl SortingAlgorithm for NoopSort {

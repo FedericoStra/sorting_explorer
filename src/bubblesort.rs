@@ -1,5 +1,6 @@
 use super::{SortingAlgorithm, SortingStatsTrait};
 
+#[derive(Debug, Default)]
 pub struct BubbleSort;
 
 impl SortingAlgorithm for BubbleSort {
