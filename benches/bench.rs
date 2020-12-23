@@ -37,9 +37,9 @@ pub fn criterion_benchmark(c: &mut Criterion) {
             let vec = make(n);
 
             group.bench_function(BenchmarkId::new("StdSort", n), |b| {
-                b.iter_batched(
+                b.iter_batched_ref(
                     || vec.clone(),
-                    |mut vec| {
+                    |vec| {
                         StdSort.sort(&mut vec[..]);
                     },
                     BatchSize::LargeInput,
@@ -47,9 +47,9 @@ pub fn criterion_benchmark(c: &mut Criterion) {
             });
 
             group.bench_function(BenchmarkId::new("BubbleSort", n), |b| {
-                b.iter_batched(
+                b.iter_batched_ref(
                     || vec.clone(),
-                    |mut vec| {
+                    |vec| {
                         BubbleSort.sort(&mut vec[..]);
                     },
                     BatchSize::LargeInput,
@@ -57,9 +57,9 @@ pub fn criterion_benchmark(c: &mut Criterion) {
             });
 
             group.bench_function(BenchmarkId::new("InsertionSort", n), |b| {
-                b.iter_batched(
+                b.iter_batched_ref(
                     || vec.clone(),
-                    |mut vec| {
+                    |vec| {
                         InsertionSort::default().sort(&mut vec[..]);
                     },
                     BatchSize::LargeInput,
@@ -67,9 +67,9 @@ pub fn criterion_benchmark(c: &mut Criterion) {
             });
 
             group.bench_function(BenchmarkId::new("InsertionSort (binary)", n), |b| {
-                b.iter_batched(
+                b.iter_batched_ref(
                     || vec.clone(),
-                    |mut vec| {
+                    |vec| {
                         InsertionSort::binary_search().sort(&mut vec[..]);
                     },
                     BatchSize::LargeInput,
@@ -77,9 +77,9 @@ pub fn criterion_benchmark(c: &mut Criterion) {
             });
 
             group.bench_function(BenchmarkId::new("SelectionSort", n), |b| {
-                b.iter_batched(
+                b.iter_batched_ref(
                     || vec.clone(),
-                    |mut vec| {
+                    |vec| {
                         SelectionSort.sort(&mut vec[..]);
                     },
                     BatchSize::LargeInput,
