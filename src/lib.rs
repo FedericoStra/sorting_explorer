@@ -1,5 +1,6 @@
 pub mod bubblesort;
 pub mod insertionsort;
+pub mod selectionsort;
 
 pub trait SortingAlgorithm: std::fmt::Debug + Default {
     fn sort_with_stats<T, S>(&self, slice: &mut [T], stats: S) -> S

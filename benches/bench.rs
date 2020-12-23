@@ -6,6 +6,7 @@ use rand::prelude::*;
 
 use sorting_explorer::bubblesort::BubbleSort;
 use sorting_explorer::insertionsort::InsertionSort;
+use sorting_explorer::selectionsort::SelectionSort;
 use sorting_explorer::SortingAlgorithm;
 
 pub fn criterion_benchmark(c: &mut Criterion) {
@@ -40,6 +41,16 @@ pub fn criterion_benchmark(c: &mut Criterion) {
                 || unsorted_vec.clone(),
                 |vec| {
                     InsertionSort::binary_search().sort(&mut vec[..]);
+                },
+                BatchSize::LargeInput,
+            )
+        });
+
+        group.bench_function(BenchmarkId::new("SelectionSort", n), |b| {
+            b.iter_batched_ref(
+                || unsorted_vec.clone(),
+                |vec| {
+                    SelectionSort.sort(&mut vec[..]);
                 },
                 BatchSize::LargeInput,
             )
@@ -81,6 +92,16 @@ pub fn criterion_benchmark(c: &mut Criterion) {
                 || unsorted_vec.clone(),
                 |vec| {
                     InsertionSort::binary_search().sort(&mut vec[..]);
+                },
+                BatchSize::LargeInput,
+            )
+        });
+
+        group.bench_function(BenchmarkId::new("SelectionSort", n), |b| {
+            b.iter_batched_ref(
+                || unsorted_vec.clone(),
+                |vec| {
+                    SelectionSort.sort(&mut vec[..]);
                 },
                 BatchSize::LargeInput,
             )
