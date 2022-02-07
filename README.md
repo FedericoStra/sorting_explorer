@@ -5,7 +5,7 @@ An exploration of various sorting algorithms.
 
 It is inspired by the similar project
 [https://github.com/FedericoStra/Sorting](https://github.com/FedericoStra/Sorting),
-which compares the performance of various sorting algorightms written in `C`.
+which compares the performance of various sorting algorithms written in `C`.
 
 Current status
 --------------
